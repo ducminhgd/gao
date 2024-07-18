@@ -2,6 +2,7 @@ package number
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -381,4 +382,30 @@ func TestMinNumberFloat64(t *testing.T) {
 			assert.Equal(t, tt.wantErr, err)
 		})
 	}
+}
+
+func TestStrToInts(t *testing.T) {
+	t.Run("Empty String Input", func(t *testing.T) {
+		input := ""
+		expected := []int{}
+		result, err := StrToInts(input)
+		assert.Nil(t, err)
+		assert.True(t, reflect.DeepEqual(result, expected))
+	})
+
+	t.Run("Valid Integer Input", func(t *testing.T) {
+		input := "42"
+		expected := []int{42}
+		result, err := StrToInts(input)
+		assert.Nil(t, err)
+		assert.True(t, reflect.DeepEqual(result, expected))
+	})
+
+	t.Run("Valid Array of Integers Input", func(t *testing.T) {
+		input := "1, 2, 3"
+		expected := []int{1, 2, 3}
+		result, err := StrToInts(input)
+		assert.Nil(t, err)
+		assert.True(t, reflect.DeepEqual(result, expected))
+	})
 }

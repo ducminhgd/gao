@@ -1,6 +1,10 @@
 package number
 
-import "errors"
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+)
 
 // MinNumber finds and returns the minimum number from a variadic list of numbers.
 //
@@ -36,4 +40,17 @@ func MaxNumber[V int32 | int64 | float32 | float64](numbers ...V) (V, error) {
 		}
 	}
 	return m, nil
+}
+
+// StrToInts converts a string to a slice of integers.
+//
+// It takes a string as input and returns a slice of integers and an error.
+func StrToInts(s string) ([]int, error) {
+	s = fmt.Sprintf("[%s]", s)
+	var results []int
+	err := json.Unmarshal([]byte(s), &results)
+	if err != nil {
+		return results, err
+	}
+	return results, nil
 }
