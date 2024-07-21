@@ -8,15 +8,13 @@ import "github.com/ducminhgd/gao/datetime"
 
 ## Index
 
-- [datetime](#datetime)
-  - [Index](#index)
-  - [Constants](#constants)
-  - [func ToString](#func-tostring)
+- [Constants](<#constants>)
+- [func ToString\(v time.Time\) string](<#ToString>)
 
 
 ## Constants
 
-<a name="RFC3339"></a>
+<a name="RFC3339"></a>https://stackoverflow.com/a/51915792 In go, the format layout for values of for math are: \- 1: Month \- 2: Day of Month \- 3 or 15: Hours \- 4: minutes \- 5: seconds \- 6: year \- 7: Timezone \- 0 or 9: for partial second
 
 ```go
 const (
