@@ -2,11 +2,10 @@ module github.com/ducminhgd/gao
 
 go 1.21.0
 
-toolchain go1.23.0
-
 require (
 	github.com/google/uuid v1.6.0
 	github.com/matoous/go-nanoid/v2 v2.1.0
+	github.com/onrik/gorm-slog v1.1.2
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/api v0.192.0
 	gorm.io/gorm v1.25.11
@@ -28,7 +27,6 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
-	github.com/onrik/gorm-slog v1.1.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
