@@ -1,6 +1,8 @@
 module github.com/ducminhgd/gao
 
-go 1.19
+go 1.21.0
+
+toolchain go1.23.0
 
 require (
 	github.com/google/uuid v1.6.0
@@ -26,6 +28,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
+	github.com/onrik/gorm-slog v1.1.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
