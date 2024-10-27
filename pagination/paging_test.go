@@ -11,8 +11,8 @@ func TestGetTotalPage(t *testing.T) {
 	testCases := []struct {
 		name              string
 		totalRecords      int64
-		pageSize          int32
-		expectedTotalPage int32
+		pageSize          int
+		expectedTotalPage int
 	}{
 		{
 			name:              "totalRecords=100,pageSize=10",
@@ -49,13 +49,13 @@ func TestGetTotalPage(t *testing.T) {
 
 func TestGetPageAndPageSize(t *testing.T) {
 	type Expected struct {
-		page  int32
-		limit int32
+		page  int
+		limit int
 	}
 	testCases := []struct {
 		name     string
-		page     int32
-		limit    int32
+		page     int
+		limit    int
 		expected Expected
 	}{
 		{
@@ -92,6 +92,72 @@ func TestGetPageAndPageSize(t *testing.T) {
 			page, limit := GetPageAndPageSize(tc.page, tc.limit)
 			assert.Equal(t, tc.expected.page, page)
 			assert.Equal(t, tc.expected.limit, limit)
+		})
+	}
+}
+
+func TestGetLimitOffset(t *testing.T) {
+	tests := []struct {
+		name     string
+		page     int
+		pageSize int
+		expected struct {
+			offset int
+			limit  int
+		}
+	}{
+		{
+			name:     "first page",
+			page:     1,
+			pageSize: 10,
+			expected: struct {
+				offset int
+				limit  int
+			}{offset: 0, limit: 10},
+		},
+		{
+			name:     "second page",
+			page:     2,
+			pageSize: 10,
+			expected: struct {
+				offset int
+				limit  int
+			}{offset: 10, limit: 10},
+		},
+		{
+			name:     "last page",
+			page:     3,
+			pageSize: 10,
+			expected: struct {
+				offset int
+				limit  int
+			}{offset: 20, limit: 10},
+		},
+		{
+			name:     "page size is 0",
+			page:     1,
+			pageSize: 0,
+			expected: struct {
+				offset int
+				limit  int
+			}{offset: 0, limit: 0},
+		},
+		{
+			name:     "page is 0",
+			page:     0,
+			pageSize: 10,
+			expected: struct {
+				offset int
+				limit  int
+			}{offset: 0, limit: 10},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actualOffset, actualLimit := GetLimitOffset(tt.page, tt.pageSize)
+			assert.Equal(t, tt.expected.offset, actualOffset)
+			assert.Equal(t, tt.expected.limit, actualLimit)
 		})
 	}
 }
