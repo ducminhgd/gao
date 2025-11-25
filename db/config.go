@@ -1,4 +1,4 @@
-package dbmanager
+package db
 
 import (
 	"time"
@@ -24,18 +24,6 @@ type DBConfig struct {
 	DSN string
 	// PoolConfig contains connection pool settings
 	PoolConfig PoolConfig
-}
-
-// PoolConfig contains connection pool settings
-type PoolConfig struct {
-	// ConnMaxIdleTime is the maximum amount of time a connection may be idle
-	ConnMaxIdleTime time.Duration `default:"10m"`
-	// ConnMaxLifetime is the maximum amount of time a connection may be reused
-	ConnMaxLifetime time.Duration `default:"60m"`
-	// MaxIdleConns is the maximum number of idle connections in the pool
-	MaxIdleConns int `default:"5"`
-	// MaxOpenConns is the maximum number of open connections to the database
-	MaxOpenConns int `default:"10"`
 }
 
 // ManagerConfig represents the configuration for the database manager
