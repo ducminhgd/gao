@@ -235,11 +235,16 @@ func (m *GORMManager) registerSourcesAndReplicas() error {
 
 // createDialector creates a GORM dialector based on the database type and DSN
 func createDialector(config DBConfig) (gorm.Dialector, error) {
+	dsn := config.GetDSN()
+	if dsn == "" {
+		return nil, fmt.Errorf("DSN is empty for database type: %s", config.Type)
+	}
+
 	switch config.Type {
 	case MySQL:
-		return mysql.Open(config.DSN), nil
+		return mysql.Open(dsn), nil
 	case PostgreSQL:
-		return postgres.Open(config.DSN), nil
+		return postgres.Open(dsn), nil
 	default:
 		return nil, fmt.Errorf("unsupported database type: %s", config.Type)
 	}
