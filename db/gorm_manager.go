@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/driver/mysql"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/plugin/dbresolver"
@@ -242,9 +240,11 @@ func createDialector(config DBConfig) (gorm.Dialector, error) {
 
 	switch config.Type {
 	case MySQL:
-		return mysql.Open(dsn), nil
+		return newMySQLDialector(dsn), nil
 	case PostgreSQL:
-		return postgres.Open(dsn), nil
+		return newPostgreSQLDialector(dsn), nil
+	case SQLite:
+		return newSQLiteDialector(dsn), nil
 	default:
 		return nil, fmt.Errorf("unsupported database type: %s", config.Type)
 	}

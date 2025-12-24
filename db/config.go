@@ -16,6 +16,8 @@ const (
 	MySQL DatabaseType = "mysql"
 	// PostgreSQL database type
 	PostgreSQL DatabaseType = "postgres"
+	// SQLite database type
+	SQLite DatabaseType = "sqlite"
 )
 
 // DBConfig represents the configuration for a single database connection
@@ -99,6 +101,8 @@ func (c *DBConfig) GetDSN() string {
 		return c.buildMySQLDSN()
 	case PostgreSQL:
 		return c.buildPostgreSQLDSN()
+	case SQLite:
+		return c.buildSQLiteDSN()
 	default:
 		return ""
 	}
@@ -153,6 +157,23 @@ func (c *DBConfig) buildPostgreSQLDSN() string {
 
 	if c.Params != "" {
 		dsn += " " + c.Params
+	}
+
+	return dsn
+}
+
+// buildSQLiteDSN builds a SQLite DSN from individual config parameters
+// Format: file:path?params or just path
+// For SQLite, the Database field should contain the file path
+func (c *DBConfig) buildSQLiteDSN() string {
+	if c.Database == "" {
+		return ""
+	}
+
+	dsn := c.Database
+
+	if c.Params != "" {
+		dsn += "?" + c.Params
 	}
 
 	return dsn

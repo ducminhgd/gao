@@ -40,6 +40,14 @@ func TestCreateDialector(t *testing.T) {
 			expectErr: false,
 		},
 		{
+			name: "SQLite dialector",
+			config: DBConfig{
+				Type: SQLite,
+				DSN:  "test.db",
+			},
+			expectErr: false,
+		},
+		{
 			name: "Invalid database type",
 			config: DBConfig{
 				Type: "invalid",
@@ -97,6 +105,7 @@ func TestManagerConfig(t *testing.T) {
 func TestDatabaseTypes(t *testing.T) {
 	assert.Equal(t, DatabaseType("mysql"), MySQL)
 	assert.Equal(t, DatabaseType("postgres"), PostgreSQL)
+	assert.Equal(t, DatabaseType("sqlite"), SQLite)
 }
 
 func TestGetDSN_WithExistingDSN(t *testing.T) {
@@ -258,6 +267,61 @@ func TestGetDSN_PostgreSQL(t *testing.T) {
 				Host:     "localhost",
 				Username: "postgres",
 				Password: "password",
+			},
+			expected: "",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.expected, tt.config.GetDSN())
+		})
+	}
+}
+
+func TestGetDSN_SQLite(t *testing.T) {
+	tests := []struct {
+		name     string
+		config   DBConfig
+		expected string
+	}{
+		{
+			name: "SQLite with database path only",
+			config: DBConfig{
+				Type:     SQLite,
+				Database: "test.db",
+			},
+			expected: "test.db",
+		},
+		{
+			name: "SQLite with full path",
+			config: DBConfig{
+				Type:     SQLite,
+				Database: "/var/data/test.db",
+			},
+			expected: "/var/data/test.db",
+		},
+		{
+			name: "SQLite with params",
+			config: DBConfig{
+				Type:     SQLite,
+				Database: "test.db",
+				Params:   "cache=shared&mode=rwc",
+			},
+			expected: "test.db?cache=shared&mode=rwc",
+		},
+		{
+			name: "SQLite in-memory database",
+			config: DBConfig{
+				Type:     SQLite,
+				Database: ":memory:",
+			},
+			expected: ":memory:",
+		},
+		{
+			name: "SQLite without database (empty DSN)",
+			config: DBConfig{
+				Type: SQLite,
 			},
 			expected: "",
 		},
