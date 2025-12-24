@@ -9,7 +9,8 @@ import (
 )
 
 var (
-	Logger = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+	// DefaultSlogLogger is a default slog.Logger instance for backward compatibility
+	DefaultSlogLogger = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: true,
 	}))
 )
